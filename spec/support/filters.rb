@@ -145,6 +145,12 @@ shared_examples_for 'a filter' do
       it 'returns the default' do
         expect(filter.default(nil)).to eql options[:default].call
       end
+
+      it 'reevaluates the default each time' do
+        expect(options[:default]).to receive(:call).twice
+        filter.default(nil)
+        filter.default(nil)
+      end
     end
 
     context 'with a callable default that takes an argument' do
